@@ -1,0 +1,2 @@
+POST_TABLE="PostTable"
+DEFAULT_AWS_REGION="us-west-2"

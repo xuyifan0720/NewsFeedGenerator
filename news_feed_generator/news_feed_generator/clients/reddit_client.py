@@ -4,7 +4,7 @@ from news_feed_generator.utils.time_conversion import to_local_time
 
 class RedditClient:
     def __init__(self, reddit: praw.reddit.Reddit):
-        self.reddit = reddit 
+        self.reddit = reddit
 
     def get_top_posts(self, sub_reddit: str) -> List[praw.models.Submission]: 
         result = []
@@ -20,4 +20,5 @@ class RedditClient:
             print(f"Upvotes: {post.score}")
             print(f"URL: {post.url}")
             print(f"Created at: {to_local_time(post.created_utc)}\n")
+        
         return result
