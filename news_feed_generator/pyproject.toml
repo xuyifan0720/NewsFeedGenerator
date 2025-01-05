@@ -8,8 +8,13 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 requests = "^2.32.3"
+boto3 = "^1.35.92"
+praw = "^7.8.1"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+test_reddit = "news_feed_generator.handler:base_reddit_test"
