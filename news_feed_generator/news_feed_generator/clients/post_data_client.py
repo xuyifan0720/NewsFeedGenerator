@@ -49,5 +49,4 @@ class PostDataDDBClient(PostDataClient):
             return []
         ddb_items = response.get('Items', [])
         dto_items = list(map(PostDTO.from_ddb_item, ddb_items))
-        print(dto_items)
         return dto_items
