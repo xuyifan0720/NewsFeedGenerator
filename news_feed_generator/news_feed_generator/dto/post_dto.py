@@ -3,6 +3,7 @@ from dataclasses import dataclass, fields
 import time
 from typing import Mapping
 from decimal import Decimal
+from news_feed_generator.utils.time_conversion import get_average_score
 
 def transform_ddb_value(value):
     if isinstance(value, Decimal):
@@ -34,9 +35,7 @@ class PostDTO:
     
     @classmethod 
     def from_reddit_submission(cls, post: praw.models.Submission, sub_reddit: str) -> 'PostDTO':
-        curr_time = time.time()
-        time_diff = curr_time - post.created_utc
-        average_score = float(post.score)/time_diff
+        average_score = get_average_score(post)
         # expire 6 days after it's created
         expiration_time = post.created_utc + 6 * 24 * 3600
         return PostDTO(sub_reddit, post.created_utc, post.id, post.title, post.score, post.url, average_score, expiration_time)

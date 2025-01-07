@@ -7,6 +7,8 @@ import os
 from dotenv import load_dotenv
 import boto3
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
+from news_feed_generator.utils.time_conversion import to_local_time
+from news_feed_generator.services.analytical_service import AnalyticalService
 
 load_dotenv()
 
@@ -29,18 +31,21 @@ def base_reddit_test():
             aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
             region_name=AWS_DEFAULT_REGION
         )
-    except NoCredentialsError:
-        print("AWS credentials are missing or incorrect.")
-        exit(1)
-    except PartialCredentialsError:
-        print("Incomplete AWS credentials found.")
-        exit(1)
     except Exception as e:
         print(f"Error initializing DynamoDB: {e}")
         exit(1)
     post_data_client = PostDataDDBClient(dynamodb)
     post_data_client.write_post(list(map(lambda post: PostDTO.from_reddit_submission(post, "singularity"), top_posts)))
-    post_data_client.get_posts("singularity")
+    existing_posts = post_data_client.get_posts("singularity")
+    analytical_service = AnalyticalService()
+    analytical_service.analyse_posts("singularity", 75, existing_posts)
+    for post in top_posts:
+        print(f"Title: {post.title}")
+        print(f"Upvotes: {post.score}")
+        print(f"URL: {post.url}")
+        print(f"Created at: {to_local_time(post.created_utc)}")
+        print(f"post hint is: {getattr(post, 'post_hint', None)}")
+        print(f"post is popular: {analytical_service.post_popular('singularity', post, 75)}\n")
 
 def base_ddb_test():
     try:

@@ -16,9 +16,5 @@ class RedditClient:
 
         for post in top_posts:
             result.append(post)
-            print(f"Title: {post.title}")
-            print(f"Upvotes: {post.score}")
-            print(f"URL: {post.url}")
-            print(f"Created at: {to_local_time(post.created_utc)}\n")
         
         return result
