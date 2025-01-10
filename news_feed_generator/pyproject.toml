@@ -24,3 +24,4 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 test_reddit = "news_feed_generator.handler:base_reddit_test"
 test_ddb = "news_feed_generator.handler:base_ddb_test"
+add_subscription = "news_feed_generator.handler:add_subscription"

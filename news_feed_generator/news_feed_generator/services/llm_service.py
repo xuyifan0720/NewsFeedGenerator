@@ -1,4 +1,3 @@
-import boto3 
 import praw
 from botocore.client import BaseClient
 from typing import Mapping, List, Optional
@@ -15,7 +14,7 @@ def get_image_from_url(image_url: str) -> Optional[Image]:
     try:
         response = requests.get(image_url)
         response.raise_for_status()  # Ensure the request was successful
-        encoded_image = base64.b64encode(response).decode("utf-8")
+        encoded_image = base64.b64encode(response.content).decode("utf-8")
         if image_url.endswith(".jpeg"):
             return Image(data=encoded_image, media_type="image/jpeg")
         elif image_url.endswith(".jpg"):
@@ -71,7 +70,7 @@ class LLMService:
                 )
                 response_body = response['body'].read().decode('utf-8')
                 parsed_response = json.loads(response_body)
-                return parsed_response
+                return parsed_response['content'][0]['text']
             else:
                 return "unable to build the prompt correctly"
         except Exception as e:

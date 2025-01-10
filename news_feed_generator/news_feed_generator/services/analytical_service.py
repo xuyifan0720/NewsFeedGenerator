@@ -12,10 +12,13 @@ class AnalyticalService:
         self.cutoffs = {}
 
     # all post in posts should be in the sub_reddit
+    # Currently just store everything in memory. 
     def analyse_posts(self, sub_reddit: str, cutoff_percentile: int, posts: List[PostDTO]):
         if (sub_reddit, cutoff_percentile) in self.cutoffs:
             return 
         else:
+            if not posts:
+                self.cutoffs[(sub_reddit, cutoff_percentile)] = 0.0
             average_scores = list(map(lambda post: post.average_score, posts))
             cutoff_score = np.percentile(average_scores, cutoff_percentile)
             self.cutoffs[(sub_reddit, cutoff_percentile)] = cutoff_score

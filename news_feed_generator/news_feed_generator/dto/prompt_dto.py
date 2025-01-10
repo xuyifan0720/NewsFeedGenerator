@@ -32,8 +32,11 @@ class Message:
             for image in self.image_datas:
                 contents.append({
                     "type": "image",
-                    "media_type": image.media_type, 
-                    "data": image.data
+                    "source": {
+                        "type": "base64",
+                        "media_type": image.media_type, 
+                        "data": image.data
+                    },
                 })
         if contents:
             result["content"] = contents
