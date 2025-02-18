@@ -4,6 +4,7 @@ from news_feed_generator.clients.post_data_client import PostDataDDBClient
 from news_feed_generator.utils.constants import DEFAULT_AWS_REGION
 from news_feed_generator.dto.post_dto import PostDTO
 import os
+import json
 from dotenv import load_dotenv
 import boto3
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
@@ -79,6 +80,15 @@ def base_reddit_test():
                             post_content = llm_service.summarize_post(post)
                             post_summarize[post.id] = post_content
                         logger.info(post_content)
+
+def handler(event, context):
+    response = {
+        "message": "success"
+    }
+    return {
+        'statusCode': 200,
+        'body': json.dumps(response)
+    }
 
 def simple_test():
     top_posts = reddit_client.get_top_posts("singularity")

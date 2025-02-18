@@ -2,7 +2,7 @@
 name = "news-feed-generator"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Yifan Xu <xuyifan0720@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -15,6 +15,7 @@ numpy = "^2.2.1"
 botocore-stubs = "^1.35.93"
 boto3-stubs = "^1.35.93"
 mypy-boto3-bedrock = "^1.35.93"
+urllib3 = ">=1.26.0,<2.0.0"
 
 
 [build-system]
